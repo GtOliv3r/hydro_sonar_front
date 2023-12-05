@@ -1,79 +1,56 @@
-import { StyleSheet, Dimensions, Text, View } from "react-native";
-import { useState, useEffect } from "react";
-import LineChartComponent from "../../components/LineChart/LineChartComponent";
-import mockData from "../../Mock/mockData.json";
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import NivelAgua from '../../components/NivelAgua';
+import EstadoValvula from '../../components/EstadoValvula';
 
-const windowWidth = Dimensions.get("window").width;
-const windowHeight = Dimensions.get("window").height;
-
-interface Record {
-  created_at: string;
-  actual_level: {
-    percent: string;
-    liters: string;
-  };
-  valve_state: boolean;
-}
-
-const getLastTenRecords = (data: Record[]) => data.slice(0, 7);
-
-export default function TabOneScreen() {
-  const [showServoVertical, setShowServoVertical] = useState(true);
-  const [data, setData] = useState(getLastTenRecords(mockData));
-  const [chartComponentKey, setChartComponentKey] = useState(1);
-
-  const chartData = data.map((record) =>
-    showServoVertical
-      ? parseFloat(record.actual_level.percent)
-      : parseFloat(record.actual_level.liters)
-  );
-
-  const timeData = data.map((record) => record.created_at);
-  const chartXData = timeData.slice(0, 7); // Pegando os últimos 7 registros como exemplo
-
-  const fetchDataFromJson = () => {
-    const newData = getLastTenRecords(mockData);
-    setData(newData);
-    setChartComponentKey((prevKey) => prevKey + 1);
-  };
+const HomeScreen: React.FC = () => {
+  const [apiData, setApiData] = useState(null);
 
   useEffect(() => {
-    setChartComponentKey((prevKey) => prevKey + 1);
-  }, [data]);
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://apisenai.pythonanywhere.com/processed-data/');
 
-  const checkForMockDataUpdate = () => {
-    const mockDataString = JSON.stringify(mockData);
-    const dataString = JSON.stringify(data);
+        if (!response.ok) {
+          throw new Error('Erro na requisição');
+        }
 
-    if (mockDataString !== dataString) {
-      fetchDataFromJson();
-    }
-  };
+        const jsonData = await response.json();
+        setApiData(jsonData);
+      } catch (error) {
+        console.error('Erro ao obter dados da API:', error.message);
+      }
+    };
 
-  useEffect(() => {
-    const intervalId = setInterval(checkForMockDataUpdate, 3600000); // Atualiza a cada hora
+    // Chama a função fetchData inicialmente e a cada 5 segundos
+    fetchData();
+    const intervalId = setInterval(() => {
+      fetchData();
+    }, 1000);
 
+    // Retorna uma função de limpeza para cancelar o setInterval ao desmontar o componente
     return () => clearInterval(intervalId);
-  }, [data]);
+  }, []);
 
   return (
     <View style={styles.container}>
-      <View style={styles.rect} />
-      <View style={[styles.chartMargin]}>
-        <LineChartComponent
-          key={chartComponentKey}
-          yAxisLabel={""}
-          yAxisSuffix={"L"}
-          chartTitle={"Nível"}
-          data={chartData}
-          chartXData={chartXData}
-          chartStyle={styles.chartStyle}
-          titleStyle={styles.chartTitleStyle}
-        />
-      </View>
+      {apiData ? (
+        <View>
+          {/* Componente NivelAgua */}
+          <NivelAgua
+            percentagem={parseFloat(apiData.actual_level.percent)}
+            litrosRestantes={apiData.actual_level.liters}
+          />
+
+          {/* Componente EstadoValvula */}
+          <EstadoValvula estado={apiData.valve_state} />
+        </View>
+      ) : (
+        <Text>Carregando...</Text>
+      )}
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -106,3 +83,5 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
 });
+
+export default HomeScreen;
