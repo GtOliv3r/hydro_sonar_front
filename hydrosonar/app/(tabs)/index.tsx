@@ -55,10 +55,32 @@ const HomeScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#ecf0f1',
-    padding: 8,
+    backgroundColor: "white",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  rect: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    backgroundColor: "#5900CB",
+    height: 100,
+    width: "100%",
+    borderBottomLeftRadius: 70,
+  },
+  chartStyle: {
+    backgroundColor: "white",
+    maxWidth: windowWidth - 32,
+    maxHeight: windowHeight - 32,
+  },
+  chartTitleStyle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 10,
+    color: "#3f51b5",
+  },
+  chartMargin: {
+    marginBottom: 10,
   },
 });
 
