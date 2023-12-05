@@ -7,6 +7,9 @@ interface NivelAguaProps {
 }
 
 const NivelAgua: React.FC<NivelAguaProps> = ({ percentagem, litrosRestantes }) => {
+    percentagem = parseFloat(percentagem.toFixed(0)); // Ajuste para mostrar 2 casas decimais
+    litrosRestantes = parseFloat(litrosRestantes.toFixed(2)); // Ajuste para mostrar 2 casas decimais
+  
   return (
     <View style={styles.card}>
       {/* Título "Nível de Água" */}
@@ -22,7 +25,7 @@ const NivelAgua: React.FC<NivelAguaProps> = ({ percentagem, litrosRestantes }) =
           <Text style={styles.percentagem}>{percentagem}%</Text>
 
           {/* Litros Restantes na Parte Direita */}
-          <Text style={styles.litrosRestantes}>{litrosRestantes} Litros restante</Text>
+          <Text style={styles.litrosRestantes}>{litrosRestantes} Litros restantes</Text>
         </View>
       </View>
     </View>
@@ -60,8 +63,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   icon: {
-    width: 200,
-    height: 75,
+    width: 170,
+    height: 64,
     marginRight: 10,
   },
   percentagem: {

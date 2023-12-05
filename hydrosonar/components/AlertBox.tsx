@@ -1,20 +1,25 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
+import { format } from 'date-fns'; // Importa a função 'format' do date-fns
 
 interface BoxInfoProps {
   percentagem: number;
+  onRemove: () => void;
 }
 
-const BoxInfo: React.FC<BoxInfoProps> = ({ percentagem }) => {
-  // Lógica para determinar se o BoxInfo deve ser renderizado
+
+const BoxInfo: React.FC<BoxInfoProps> = ({ percentagem, onRemove }) => {
+  const formatTime = (timestamp: number) => {
+    const date = new Date(timestamp);
+    return `${date.getHours()}:${String(date.getMinutes()).padStart(2, '0')}`;
+  };
+  
   const shouldRenderBoxInfo = percentagem <= 20 || percentagem >= 80;
 
   if (!shouldRenderBoxInfo) {
-    // Se não deve ser renderizado, retornamos nulo (nada será renderizado)
     return null;
   }
 
-  // Títulos e mensagens com base na porcentagem
   let title = '';
   let description = '';
 
@@ -32,19 +37,27 @@ const BoxInfo: React.FC<BoxInfoProps> = ({ percentagem }) => {
     description = 'O nível de água está abaixo de 10%';
   }
 
+  // Obtém a data e hora atual
+  const currentDateTime = new Date();
+
+  // Formata a data e hora para exibição
+  const formattedDateTime = format(currentDateTime, 'dd/MM/yyyy HH:mm:ss');
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{title}</Text>
       <View style={styles.content}>
-        {/* Utilize a imagem importada localmente */}
         <Image source={require('../assets/images/alerta.png')} style={styles.image} />
         <View style={styles.textContainer}>
           <Text style={styles.description}>{description}</Text>
+          {/* Exibe a hora no canto direito inferior */}
+          <Text style={styles.dateTime}>{formattedDateTime}</Text>
         </View>
       </View>
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {
@@ -75,6 +88,12 @@ const styles = StyleSheet.create({
   description: {
     fontSize: 14,
     color: '#666',
+  },
+  dateTime: {
+    fontSize: 12,
+    color: '#888', // Cor para a hora
+    marginTop: 5,
+    alignSelf: 'flex-end', // Alinha no canto direito inferior
   },
 });
 
