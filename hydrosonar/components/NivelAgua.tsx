@@ -52,6 +52,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 10,
     textAlign: 'center',
+    color: 'blue',
   },
   content: {
     flexDirection: 'row',
@@ -71,9 +72,12 @@ const styles = StyleSheet.create({
   litrosRestantes: {
     fontSize: 16,
     fontWeight: 'bold',
+    color: 'blue',
   },
   texts: {
     alignItems: 'center',
+    fontWeight: 'bold',
+    color: 'blue',
   },
 });
 

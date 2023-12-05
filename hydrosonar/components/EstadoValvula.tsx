@@ -62,12 +62,14 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 10,
+    color: 'blue',
   },
   content: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     width: 'auto',
+    
   },
   image: {
     width: 100,
@@ -78,6 +80,8 @@ const styles = StyleSheet.create({
     fontSize: 25,
     marginRight:10,
     marginLeft: 70,
+    fontWeight: 'bold',
+    color: 'blue',
   },
   bola: {
     width: 35,
@@ -103,13 +107,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 0, 0, 1)',
   },
   bolaVermeApagada: {
-    backgroundColor: 'rgba(255, 0, 0, 0.2)',
+    backgroundColor: 'rgba(150, 0, 0, 1)',
   },
   bolaVerdeAcesa: {
     backgroundColor: 'rgba(0, 255, 0, 1)',
   },
   bolaVerdeApagada: {
-    backgroundColor: 'rgba(0, 255, 0, 0.2)',
+    backgroundColor: 'rgba(0, 90, 0, 1)',
   },
 });
 

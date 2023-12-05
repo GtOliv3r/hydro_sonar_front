@@ -9,7 +9,7 @@ const HomeScreen: React.FC = () => {
   return (
     <View style={styles.container}>
       <NivelAgua percentagem={60} litrosRestantes={10} />
-      <EstadoValvula estado={true} />
+      <EstadoValvula estado={false} />
     </View>
 
     
