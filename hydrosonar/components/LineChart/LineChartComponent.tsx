@@ -1,17 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { LineChart } from 'react-native-chart-kit';
 import { View, Text, StyleSheet, StyleProp, ViewStyle, TextStyle } from 'react-native';
+import { format, parseISO } from 'date-fns';
+
+interface ApiData {
+  timestamp: string;
+  actual_level: {
+    percent: number;
+    liters: number;
+  };
+  valve_state: boolean;
+}
 
 interface LineChartProps {
   yAxisLabel: string;
   yAxisSuffix: string;
   chartTitle: string;
-  data: number[];
-  chartXData: string[];
+  data: number[];  
+  chartXData: string[];  // Alterado para string[]
   chartStyle?: StyleProp<ViewStyle>;
   titleStyle?: StyleProp<TextStyle>;
 }
-
 const chartConfig = {
   backgroundGradientFrom: '#fff',
   backgroundGradientTo: '#fff',
@@ -36,17 +45,49 @@ const chartConfig = {
   propsForBackgroundLines: {
     strokeDasharray: '',
   },
+  yAxis: {
+    labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+    suffix: '%',
+    min: 0,
+    max: 100,
+  },
 };
 
-const LineChartComponent: React.FC<LineChartProps> = ({ yAxisLabel, yAxisSuffix, chartTitle, data, chartXData, chartStyle, titleStyle }) => {
-  const [chartData, setChartData] = useState(data);
+const LineChartComponent: React.FC<LineChartProps> = ({ yAxisLabel, yAxisSuffix, chartTitle, chartXData, chartStyle, titleStyle }) => {
+  const [chartData, setChartData] = useState<number[]>([]);
+  const hours = chartXData.map((timestamp) => format(parseISO(timestamp), 'HH:mm'));
+
 
   useEffect(() => {
-    setChartData(data.slice(-7));
-  }, [data]);
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://apisenai.pythonanywhere.com/processed-data/');
 
-  // Extrai apenas o horário das strings de data
-  const hours = chartXData.map((dateTime) => new Date(dateTime).toLocaleTimeString().slice(0, 5)).slice(-7); // Limita aos últimos 5 registros
+        if (!response.ok) {
+          throw new Error('Erro na requisição');
+        }
+
+        const jsonData: ApiData[] = await response.json();
+        const timestamps = jsonData.map((data) => data.timestamp);
+        const formattedTimes = timestamps.map((timestamp) =>
+          format(parseISO(timestamp), 'HH:mm')
+        );
+        
+        setChartData(jsonData.map((item) => item.actual_level.percent));
+      } catch (error) {
+        console.error('Erro ao obter dados da API:', error.message);
+      }
+    };
+
+    // Atualize os dados a cada intervalo (por exemplo, a cada 5 minutos)
+    const intervalId = setInterval(fetchData, 5 * 60 * 1000);
+
+    // Execute a atualização inicial
+    fetchData();
+
+    // Limpeza do intervalo quando o componente é desmontado
+    return () => clearInterval(intervalId);
+  }, []);
 
   const convertedStyle = StyleSheet.flatten(chartStyle as StyleProp<ViewStyle>);
   const convertedTitleStyle = StyleSheet.flatten(titleStyle as StyleProp<TextStyle>);
@@ -63,7 +104,7 @@ const LineChartComponent: React.FC<LineChartProps> = ({ yAxisLabel, yAxisSuffix,
             },
           ],
         }}
-        width={347}
+        width={310}
         height={180}
         yAxisLabel={yAxisLabel}
         yAxisSuffix={yAxisSuffix}
@@ -77,12 +118,17 @@ const LineChartComponent: React.FC<LineChartProps> = ({ yAxisLabel, yAxisSuffix,
 
 const styles = StyleSheet.create({
   chartContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 20,
     backgroundColor: '#fff',
     borderRadius: 10,
-    padding: 16,
+    padding: 20,
+    paddingHorizontal: 15,
     elevation: 3,
+    marginLeft: 25,
   },
   chartTitle: {
     fontSize: 18,

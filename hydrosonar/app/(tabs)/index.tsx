@@ -1,34 +1,90 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import NivelAgua from '../../components/NivelAgua';
 import EstadoValvula from '../../components/EstadoValvula';
+import LineChartComponent from '../../components/LineChart/LineChartComponent';
+import mockData from "../../Mock/mockData.json";
 
-const HomeScreen: React.FC = () => {
-  const [apiData, setApiData] = useState(null);
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
+
+interface ApiData {
+  timestamp: string;
+  actual_level: {
+    percent: number;
+    liters: number;
+  };
+  valve_state: boolean;
+}
+
+interface CustomRecord {
+  created_at: string;
+  actual_level: {
+    percent: string;
+    liters: string;
+  };
+  valve_state: boolean;
+}
+
+const getLastTenRecords = (data: CustomRecord[]) => data.slice(0, 7);
+
+const IndexScreen: React.FC = () => {
+  const [showServoVertical, setShowServoVertical] = useState(true);
+  const [data, setData] = useState<CustomRecord[]>(getLastTenRecords(mockData));
+  const [chartComponentKey, setChartComponentKey] = useState(1);
+  const [apiData, setApiData] = useState<ApiData | null>(null);
+
+  const chartData = data.map((record) =>
+    showServoVertical
+      ? parseFloat(record.actual_level.percent)
+      : parseFloat(record.actual_level.liters)
+  );
+
+  const timeData = data.map((record) => record.created_at);
+  const chartXData = timeData.slice(0, 7); // Pegando os últimos 7 registros como exemplo
+
+  useEffect(() => {
+    const fetchDataFromJson = () => {
+      const newData = getLastTenRecords(mockData);
+      setData(newData);
+      setChartComponentKey((prevKey) => prevKey + 1);
+    };
+
+    setChartComponentKey((prevKey) => prevKey + 1);
+
+    const checkForMockDataUpdate = () => {
+      const mockDataString = JSON.stringify(mockData);
+      const dataString = JSON.stringify(data);
+
+      if (mockDataString !== dataString) {
+        fetchDataFromJson();
+      }
+    };
+
+    const intervalId = setInterval(checkForMockDataUpdate, 30000); // Atualiza a cada hora
+
+    return () => clearInterval(intervalId);
+  }, [data]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://apisenai.pythonanywhere.com/processed-data/');
+        const response = await fetch('http://apisenai.pythonanywhere.com/processed-data');
 
         if (!response.ok) {
           throw new Error('Erro na requisição');
         }
 
-        const jsonData = await response.json();
+        const jsonData: ApiData = await response.json();
         setApiData(jsonData);
       } catch (error) {
         console.error('Erro ao obter dados da API:', error.message);
       }
     };
 
-    // Chama a função fetchData inicialmente e a cada 5 segundos
     fetchData();
-    const intervalId = setInterval(() => {
-      fetchData();
-    }, 1000);
+    const intervalId = setInterval(fetchData, 1000);
 
-    // Retorna uma função de limpeza para cancelar o setInterval ao desmontar o componente
     return () => clearInterval(intervalId);
   }, []);
 
@@ -36,13 +92,20 @@ const HomeScreen: React.FC = () => {
     <View style={styles.container}>
       {apiData ? (
         <View>
-          {/* Componente NivelAgua */}
           <NivelAgua
             percentagem={parseFloat(apiData.actual_level.percent)}
             litrosRestantes={apiData.actual_level.liters}
           />
-
-          {/* Componente EstadoValvula */}
+          {/* <LineChartComponent
+            key={chartComponentKey}
+            yAxisLabel="%"
+            yAxisSuffix=""
+            chartTitle="Nível de Água"
+            data={apiData ? [apiData.actual_level.percent] : []}
+            chartXData={apiData ? [apiData.timestamp] : []}
+            chartStyle={styles.chartStyle}
+            titleStyle={styles.chartTitleStyle}
+          /> */}
           <EstadoValvula estado={apiData.valve_state} />
         </View>
       ) : (
@@ -53,6 +116,13 @@ const HomeScreen: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
+  text: {
+    backgroundColor: "white",
+    alignItems: "center",
+    justifyContent: "center",
+    margin: 100,
+    marginLeft: 140,
+  },
   container: {
     flex: 1,
     backgroundColor: "white",
@@ -84,4 +154,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen;
+export default IndexScreen;

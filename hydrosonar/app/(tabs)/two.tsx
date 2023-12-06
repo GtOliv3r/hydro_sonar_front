@@ -4,7 +4,7 @@ import BoxInfo from '../../components/AlertBox';
 
 const MAX_ALERTS = 5;
 
-const HomeScreen: React.FC = () => {
+const AlertsScreen: React.FC = () => {
   const [alerts, setAlerts] = useState<number[]>([]);
   const [percentagem, setPercentagem] = useState<number | null>(null);
 
@@ -79,8 +79,9 @@ const HomeScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor:'white',
     flex: 1,
   },
 });
 
-export default HomeScreen;
+export default AlertsScreen;

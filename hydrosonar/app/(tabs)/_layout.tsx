@@ -1,8 +1,15 @@
 import React from 'react';
 import { View, Pressable, useColorScheme, Image } from 'react-native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Tabs } from 'expo-router';
+import { Tabs, Link } from 'expo-router';
 import Colors from '../../constants/Colors';
+import IndexScreen from './index';
+import AlertsScreen from './two';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
+
+const Tab = createBottomTabNavigator();
 
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>['name'];
@@ -20,51 +27,37 @@ export default function TabLayout() {
   const colorScheme = useColorScheme();
 
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        tabBarStyle: {
-          flexDirection: 'row',
-          backgroundColor: '#5900CB',
-          justifyContent: 'space-between',
-          paddingHorizontal: 20,
-        },
-      }}
-    >
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Página inicial',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <FontAwesome
-                    name="info-circle"
-                    size={25}
-                    color={Colors[colorScheme ?? 'light'].text}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
-          ),
-        }}
-      />
-      <View style={{ width: 1, backgroundColor: '#fff' }} /> {/* Divisão branca vertical */}
-      <Tabs.Screen
-        name="two"
-        options={{
-          title: 'Alertas',
-          tabBarIcon: ({ color }) => (
-            <CustomTabIcon
-              imageSource={require('../../assets/images/alertas.png')} // Caminho da segunda imagem
-              color={color}
-            />
-          ),
-        }}
-      />
-    </Tabs>
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ color }) => {
+            let iconName = 'code'; // Default icon name
+
+            if (route.name === 'Alerts') {
+              iconName = 'bell'; // Change to the icon name you want for Alerts
+            }
+
+            return <TabBarIcon name={'code'} color={color} />;
+          },
+          tabBarStyle: {
+            backgroundColor: '#5900CB',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            paddingHorizontal: 20,
+          },
+          tabBarActiveTintColor: Colors.light.tint,
+        })}
+      >
+        <Tab.Screen
+          name="Index"
+          component={IndexScreen}
+          options={{ title: 'Página Inicial' }}
+        />
+
+        <Tab.Screen
+          name="Alerts"
+          component={AlertsScreen}
+          options={{ title: 'Alertas' }}
+        />
+      </Tab.Navigator>
   );
 }
