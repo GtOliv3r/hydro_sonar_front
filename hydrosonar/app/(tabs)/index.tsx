@@ -36,35 +36,12 @@ const IndexScreen: React.FC = () => {
 
   const chartData = data.map((record) =>
     showServoVertical
-      ? parseFloat(record.actual_level.percent)
-      : parseFloat(record.actual_level.liters)
+      ? record.actual_level.percent
+      : record.actual_level.liters
   );
 
   const timeData = data.map((record) => record.created_at);
   const chartXData = timeData.slice(0, 7); // Pegando os últimos 7 registros como exemplo
-
-  useEffect(() => {
-    const fetchDataFromJson = () => {
-      const newData = getLastTenRecords(mockData);
-      setData(newData);
-      setChartComponentKey((prevKey) => prevKey + 1);
-    };
-
-    setChartComponentKey((prevKey) => prevKey + 1);
-
-    const checkForMockDataUpdate = () => {
-      const mockDataString = JSON.stringify(mockData);
-      const dataString = JSON.stringify(data);
-
-      if (mockDataString !== dataString) {
-        fetchDataFromJson();
-      }
-    };
-
-    const intervalId = setInterval(checkForMockDataUpdate, 30000); // Atualiza a cada hora
-
-    return () => clearInterval(intervalId);
-  }, [data]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -92,10 +69,12 @@ const IndexScreen: React.FC = () => {
     <View style={styles.container}>
       {apiData ? (
         <View>
-          <NivelAgua
-            percentagem={parseFloat(apiData.actual_level.percent)}
-            litrosRestantes={apiData.actual_level.liters}
-          />
+          {apiData && apiData.actual_level && (
+            <NivelAgua
+              percentagem={apiData.actual_level.percent}
+              litrosRestantes={apiData.actual_level.liters}
+            />
+          )}
           {/* <LineChartComponent
             key={chartComponentKey}
             yAxisLabel="%"
