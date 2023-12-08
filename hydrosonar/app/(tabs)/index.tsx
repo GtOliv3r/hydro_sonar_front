@@ -1,12 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
-import NivelAgua from '../../components/NivelAgua';
-import EstadoValvula from '../../components/EstadoValvula';
-import LineChartComponent from '../../components/LineChart/LineChartComponent';
-import mockData from "../../Mock/mockData.json";
-
+import React, { useEffect, useState } from "react";
+import { View, Text, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
+import NivelAgua from "../../components/NivelAgua";
+import EstadoValvula from "../../components/EstadoValvula";
+import LineChartComponent from "../../components/LineChart/LineChartComponent";
+import mockData from "../../Mock/mockData.json"
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
+
+interface Record {
+  timestamp: string;
+  percent: number;
+  liters: number;
+}
 
 interface ApiData {
   timestamp: string;
@@ -17,48 +22,38 @@ interface ApiData {
   valve_state: boolean;
 }
 
-interface CustomRecord {
-  created_at: string;
-  actual_level: {
-    percent: string;
-    liters: string;
-  };
-  valve_state: boolean;
-}
-
-const getLastTenRecords = (data: CustomRecord[]) => data.slice(0, 7);
+const getLastTenRecords = (data: Record[]) => data.slice(0, 7);
 
 const IndexScreen: React.FC = () => {
-  const [showServoVertical, setShowServoVertical] = useState(true);
-  const [data, setData] = useState<CustomRecord[]>(getLastTenRecords(mockData));
+  const [data, setData] = useState(getLastTenRecords(mockData));
   const [chartComponentKey, setChartComponentKey] = useState(1);
   const [apiData, setApiData] = useState<ApiData | null>(null);
 
-  const chartData = data.map((record) =>
-    showServoVertical
-      ? record.actual_level.percent
-      : record.actual_level.liters
-  );
+  const fetchData = async () => {
+    try {
+      const response = await fetch("http://apisenai.pythonanywhere.com/processed-data");
 
-  const timeData = data.map((record) => record.created_at);
-  const chartXData = timeData.slice(0, 7); // Pegando os últimos 7 registros como exemplo
+      if (!response.ok) {
+        throw new Error(`Erro na requisição: ${response.status} - ${response.statusText}`);
+      }
+
+      const jsonData: ApiData = await response.json();
+      setApiData(jsonData);
+
+      setData((prevData) => [
+        ...prevData,
+        {
+          timestamp: jsonData.timestamp,
+          percent: jsonData.actual_level.percent,
+          liters: jsonData.actual_level.liters,
+        },
+      ]);
+    } catch (error) {
+      console.error("Erro ao obter dados da API:", error);
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('http://apisenai.pythonanywhere.com/processed-data');
-
-        if (!response.ok) {
-          throw new Error('Erro na requisição');
-        }
-
-        const jsonData: ApiData = await response.json();
-        setApiData(jsonData);
-      } catch (error) {
-        console.error('Erro ao obter dados da API:', error.message);
-      }
-    };
-
     fetchData();
     const intervalId = setInterval(fetchData, 1000);
 
@@ -75,16 +70,15 @@ const IndexScreen: React.FC = () => {
               litrosRestantes={apiData.actual_level.liters}
             />
           )}
-          {/* <LineChartComponent
-            key={chartComponentKey}
-            yAxisLabel="%"
+          <LineChartComponent
+            yAxisLabel=""
             yAxisSuffix=""
-            chartTitle="Nível de Água"
-            data={apiData ? [apiData.actual_level.percent] : []}
-            chartXData={apiData ? [apiData.timestamp] : []}
+            chartTitle={"Gráfico"}
+            data={data.map((record) => (record.percent))}
+            chartXData={data.map((record) => record.timestamp)}
             chartStyle={styles.chartStyle}
             titleStyle={styles.chartTitleStyle}
-          /> */}
+          />
           <EstadoValvula estado={apiData.valve_state} />
         </View>
       ) : (
@@ -95,27 +89,11 @@ const IndexScreen: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
-  text: {
-    backgroundColor: "white",
-    alignItems: "center",
-    justifyContent: "center",
-    margin: 100,
-    marginLeft: 140,
-  },
   container: {
     flex: 1,
     backgroundColor: "white",
     alignItems: "center",
     justifyContent: "center",
-  },
-  rect: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    backgroundColor: "#5900CB",
-    height: 100,
-    width: "100%",
-    borderBottomLeftRadius: 70,
   },
   chartStyle: {
     backgroundColor: "white",
@@ -128,8 +106,23 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     color: "#3f51b5",
   },
-  chartMargin: {
-    marginBottom: 10,
+  buttonContainer: {
+    alignItems: "center",
+    marginTop: 20,
+  },
+  toggleButton: {
+    backgroundColor: "lightblue",
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    borderRadius: 5,
+  },
+  toggleButtonText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#3f51b5",
+    justifyContent: "center",
+    textAlign: "center",
+    width: "auto",
   },
 });
 

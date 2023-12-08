@@ -1,15 +1,9 @@
 import React from 'react';
-import { View, Pressable, useColorScheme, Image } from 'react-native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Tabs, Link } from 'expo-router';
+import { Link, Tabs } from 'expo-router';
+import { Pressable, useColorScheme } from 'react-native';
+
 import Colors from '../../constants/Colors';
-import IndexScreen from './index';
-import AlertsScreen from './two';
-import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-
-
-const Tab = createBottomTabNavigator();
 
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>['name'];
@@ -18,46 +12,54 @@ function TabBarIcon(props: {
   return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
 }
 
-// Função para o ícone customizado com imagem
-const CustomTabIcon = ({ imageSource, color }: { imageSource: any; color: string }) => (
-  <Image source={imageSource} style={{ width: 40, height: 40, tintColor: color }} />
-);
-
 export default function TabLayout() {
   const colorScheme = useColorScheme();
 
+  const headerRightComponent = (
+    <Link href="/modal" asChild>
+      <Pressable>
+        {({ pressed }) => (
+          <FontAwesome
+            name="info-circle"
+            size={25}
+            color={Colors[colorScheme ?? 'light'].text}
+            style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+          />
+        )}
+      </Pressable>
+    </Link>
+  );
+
   return (
-      <Tab.Navigator
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ color }) => {
-            let iconName = 'code'; // Default icon name
-
-            if (route.name === 'Alerts') {
-              iconName = 'bell'; // Change to the icon name you want for Alerts
-            }
-
-            return <TabBarIcon name={'code'} color={color} />;
-          },
-          tabBarStyle: {
-            backgroundColor: '#5900CB',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            paddingHorizontal: 20,
-          },
-          tabBarActiveTintColor: Colors.light.tint,
-        })}
-      >
-        <Tab.Screen
-          name="Index"
-          component={IndexScreen}
-          options={{ title: 'Página Inicial' }}
-        />
-
-        <Tab.Screen
-          name="Alerts"
-          component={AlertsScreen}
-          options={{ title: 'Alertas' }}
-        />
-      </Tab.Navigator>
+    <Tabs
+      screenOptions={{
+        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarInactiveTintColor: '#270058', // Cor de roxo mais escuro para ícones desabilitados
+      }}>
+      <Tabs.Screen
+        name="index"
+        options={{
+          title: 'Início',
+          tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
+          headerRight: () => headerRightComponent,
+          headerStyle: { backgroundColor: '#8a2be2' }, // Cor de fundo roxa
+          headerTintColor: Colors[colorScheme ?? 'light'].text, // Cor do texto no cabeçalho
+          tabBarStyle: { backgroundColor: '#8a2be2', height: 80, paddingTop: 10 },
+          tabBarLabelStyle: { fontSize: 25, fontWeight: 'bold', paddingBottom: 10 },
+        }}
+      />
+      <Tabs.Screen
+        name="two"
+        options={{
+          title: 'Tab Two',
+          tabBarIcon: ({ color }) => <TabBarIcon name="warning" color={color} />,
+          headerRight: () => headerRightComponent, // Copia o componente do cabeçalho da tela "Início"
+          headerStyle: { backgroundColor: '#8a2be2' }, // Cor de fundo roxa
+          headerTintColor: Colors[colorScheme ?? 'light'].text, // Cor do texto no cabeçalho
+          tabBarStyle: { backgroundColor: '#8a2be2', height: 80, paddingTop: 10 },
+          tabBarLabelStyle: { fontSize: 25, fontWeight: 'bold', paddingBottom: 10 },
+        }}
+      />
+    </Tabs>
   );
 }

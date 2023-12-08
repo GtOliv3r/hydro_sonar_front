@@ -61,7 +61,7 @@ const AlertsScreen: React.FC = () => {
           removeOldestAlert();
         }
       } catch (error) {
-        console.error('Erro ao obter dados da API:', error.message);
+        console.error('Erro ao obter dados da API:', error);
       }
     };
 

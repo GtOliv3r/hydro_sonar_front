@@ -60,7 +60,7 @@ class BoxInfo extends React.Component<BoxInfoProps> {
         <View style={styles.content}>
           <Image source={require('../assets/images/alerta.png')} style={styles.image} />
           <View style={styles.textContainer}>
-            <Button title="Remover" onPress={this.handleRemove} />
+            <Button title="Remover" onPress={this.handleRemove}/>
             <Text style={styles.description}>{description}</Text>
             <Text style={styles.dateTime}>{formattedDateTime}</Text>
           </View>
