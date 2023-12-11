@@ -50,11 +50,11 @@ const LineChartComponent: React.FC<LineChartProps> = ({
   const [chartData, setChartData] = useState(data);
 
   useEffect(() => {
-    setChartData(data.slice(-7));
+    setChartData(data.slice(-12));
   }, [data]);
 
   // Extrai apenas o horário das strings de data
-  const hours = chartXData.map((dateTime) => new Date(dateTime).toLocaleTimeString().slice(0, 5)).slice(-7);
+  const hours = chartXData.map((dateTime) => new Date(dateTime).toLocaleTimeString().slice(0, 5)).slice(-6);
 
   const convertedStyle = StyleSheet.flatten(chartStyle as StyleProp<ViewStyle>);
   const convertedTitleStyle = StyleSheet.flatten(titleStyle as StyleProp<TextStyle>);

@@ -24,4 +24,4 @@ const fetchDataAndSaveToFile = async () => {
 // Chama a função fetchDataAndSaveToFile a cada segundo
 setInterval(() => {
   fetchDataAndSaveToFile();
-}, 1000);
+}, 10000);

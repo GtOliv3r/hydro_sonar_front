@@ -42,10 +42,10 @@ const styles = StyleSheet.create({
     container:{
     alignItems: 'center',
     backgroundColor: '#fff', // Cor de fundo, ajuste conforme necessário
-    padding: 20,
+    padding: 10,
     paddingHorizontal: 50,
     borderRadius: 8,
-    marginVertical: 10,
+    marginBottom:50,
     ...Platform.select({
       android: {
         elevation: 4,
@@ -72,8 +72,8 @@ const styles = StyleSheet.create({
     
   },
   image: {
-    width: 100,
-    height: 100,
+    width: 85,
+    height: 80,
     marginRight: 10,
   },
   estadoText: {

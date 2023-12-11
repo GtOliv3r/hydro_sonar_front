@@ -55,7 +55,7 @@ const IndexScreen: React.FC = () => {
 
   useEffect(() => {
     fetchData();
-    const intervalId = setInterval(fetchData, 1000);
+    const intervalId = setInterval(fetchData, 10000);
 
     return () => clearInterval(intervalId);
   }, []);
@@ -97,8 +97,8 @@ const styles = StyleSheet.create({
   },
   chartStyle: {
     backgroundColor: "white",
-    maxWidth: windowWidth - 32,
-    maxHeight: windowHeight - 32,
+    maxWidth: windowWidth,
+    maxHeight: windowHeight,
   },
   chartTitleStyle: {
     fontSize: 18,
