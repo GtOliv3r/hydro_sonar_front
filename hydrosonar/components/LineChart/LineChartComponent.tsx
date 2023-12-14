@@ -23,15 +23,15 @@ const chartConfig = {
     borderRadius: 16,
   },
   propsForDots: {
-    r: "6",
+    r: "2",
     strokeWidth: "2",
     stroke: "#3f51b5",
   },
   propsForVerticalLabels: {
-    fontSize: 10,
+    fontSize: 12,
   },
   propsForHorizontalLabels: {
-    fontSize: 10,
+    fontSize: 12,
   },
   propsForBackgroundLines: {
     strokeDasharray: "",
@@ -78,6 +78,7 @@ const LineChartComponent: React.FC<LineChartProps> = ({
         chartConfig={chartConfig}
         style={convertedStyle}
         withVerticalLines={false}
+        bezier
       />
     </View>
   );
