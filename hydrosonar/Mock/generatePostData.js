@@ -1,13 +1,30 @@
 function postData() {
-    const url = 'http://apisenai.pythonanywhere.com/sensor-data/';
-  
-    // Generate a random value between 0 and 8.5
-    const randomValue = Math.random() * 8.5;
-  
+  const url = 'http://apisenai.pythonanywhere.com/sensor-data/';
+
+  let value = 0;
+  let isIncrementing = true;  // Adicionamos uma variável para controlar se estamos incrementando ou decrementando
+
+  const generateRandomValue = () => Math.random() / 10;
+
+  const updateValue = () => {
+    const randomValue = generateRandomValue();
+
+    if (isIncrementing) {
+      value += randomValue;
+      if (value >= 8) {
+        isIncrementing = false;  // Alterna para decrementar quando atinge 8
+      }
+    } else {
+      value -= randomValue;
+      if (value <= 1) {
+        isIncrementing = true;  // Alterna para incrementar quando atinge 1
+      }
+    }
+
     const data = {
-      value: randomValue,
+      value: value,
     };
-  
+
     fetch(url, {
       method: 'POST',
       headers: {
@@ -27,8 +44,9 @@ function postData() {
       .catch(error => {
         console.error('Error sending data:', error.message);
       });
-  }
-  
-  // Call the postData function every second
-  setInterval(postData, 1000);
-  
+  };
+
+  setInterval(updateValue, 1000);
+}
+
+postData();

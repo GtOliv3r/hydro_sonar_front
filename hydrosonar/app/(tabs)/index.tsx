@@ -82,7 +82,7 @@ const IndexScreen: React.FC = () => {
     fetchData();
 
     // Configurando intervalo para buscar dados a cada 1 segundo
-    const intervalId = setInterval(fetchData, 500);
+    const intervalId = setInterval(fetchData, 1500);
 
     // Limpando o intervalo quando o componente é desmontado
     return () => clearInterval(intervalId);

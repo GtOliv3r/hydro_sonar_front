@@ -51,4 +51,4 @@ const fetchDataAndSaveToQueue = async () => {
 // Chama a função fetchDataAndSaveToQueue a cada segundo
 setInterval(() => {
   fetchDataAndSaveToQueue();
-}, 3600);
+}, 1000);
