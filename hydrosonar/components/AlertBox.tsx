@@ -1,63 +1,79 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
-import { format } from 'date-fns'; // Importa a função 'format' do date-fns
+import { View, Text, Image, StyleSheet, Button ,TouchableOpacity} from 'react-native';
+import { format } from 'date-fns';
+
+export interface Alert {
+  timestamp: number;
+  percentagem: number;
+  message: string;
+}
 
 interface BoxInfoProps {
-  percentagem: number;
+  alert: Alert;
   onRemove: () => void;
 }
 
+class BoxInfo extends React.Component<BoxInfoProps> {
+  handleRemove = () => {
+    const { onRemove } = this.props;
+    if (onRemove) {
+      onRemove();
+    }
+  };
 
-const BoxInfo: React.FC<BoxInfoProps> = ({ percentagem, onRemove }) => {
-  const formatTime = (timestamp: number) => {
+  formatTime = (timestamp: number) => {
     const date = new Date(timestamp);
     return `${date.getHours()}:${String(date.getMinutes()).padStart(2, '0')}`;
   };
-  
-  const shouldRenderBoxInfo = percentagem <= 20 || percentagem >= 80;
 
-  if (!shouldRenderBoxInfo) {
-    return null;
-  }
+  render() {
+    const { alert } = this.props;
 
-  let title = '';
-  let description = '';
+    const shouldRenderBoxInfo = alert.percentagem <= 20 || alert.percentagem >= 80;
 
-  if (percentagem >= 80 && percentagem < 90) {
-    title = 'Nível alto';
-    description = 'O nível de água está acima de 80%';
-  } else if (percentagem >= 90) {
-    title = 'Nível muito alto';
-    description = 'O nível de água está acima de 90%';
-  } else if (percentagem <= 20 && percentagem > 11) {
-    title = 'Nível baixo';
-    description = 'O nível de água está abaixo de 20%';
-  } else if (percentagem <= 10) {
-    title = 'Nível muito baixo';
-    description = 'O nível de água está abaixo de 10%';
-  }
+    if (!shouldRenderBoxInfo) {
+      return null;
+    }
 
-  // Obtém a data e hora atual
-  const currentDateTime = new Date();
+    let title = '';
+    let description = '';
 
-  // Formata a data e hora para exibição
-  const formattedDateTime = format(currentDateTime, 'dd/MM/yyyy HH:mm:ss');
+    if (alert.percentagem >= 80 && alert.percentagem < 90) {
+      title = 'Nível alto';
+      description = 'O nível de água está acima de 80%';
+    } else if (alert.percentagem >= 90) {
+      title = 'Nível muito alto';
+      description = 'O nível de água está acima de 90%';
+    } else if (alert.percentagem <= 20 && alert.percentagem > 11) {
+      title = 'Nível baixo';
+      description = 'O nível de água está abaixo de 20%';
+    } else if (alert.percentagem <= 10) {
+      title = 'Nível muito baixo';
+      description = 'O nível de água está abaixo de 10%';
+    }
 
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>{title}</Text>
-      <View style={styles.content}>
-        <Image source={require('../assets/images/alerta.png')} style={styles.image} />
-        <View style={styles.textContainer}>
-          <Text style={styles.description}>{description}</Text>
-          {/* Exibe a hora no canto direito inferior */}
-          <Text style={styles.dateTime}>{formattedDateTime}</Text>
+    const formattedDateTime = format(alert.timestamp, 'dd/MM/yyyy HH:mm:ss');
+
+    return (
+      <View style={styles.container}>
+        <Text style={styles.title}>{title}</Text>
+        <View style={styles.content}>
+          <Image source={require('../assets/images/alerta.png')} style={styles.image} />
+          <View style={styles.textContainer}>
+            <Text style={styles.description}>{description}</Text>
+            <TouchableOpacity
+              style={styles.removeButton}
+              onPress={this.handleRemove}
+            >
+              <Text style={styles.buttonText}>Remover</Text>
+            </TouchableOpacity>
+            <Text style={styles.dateTime}>{formattedDateTime}</Text>
+          </View>
         </View>
       </View>
-    </View>
-  );
-};
-
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -79,6 +95,7 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     flex: 1,
+    alignItems: 'center',
   },
   title: {
     fontSize: 18,
@@ -88,12 +105,25 @@ const styles = StyleSheet.create({
   description: {
     fontSize: 14,
     color: '#666',
+    marginBottom: 10,
   },
   dateTime: {
     fontSize: 12,
-    color: '#888', // Cor para a hora
+    color: '#888',
     marginTop: 5,
-    alignSelf: 'flex-end', // Alinha no canto direito inferior
+    alignSelf: 'flex-end',
+  },
+  removeButton: {
+    backgroundColor: '#8a2be2', // Defina a cor verde desejada
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 10,
+    width: '80%',
+  },
+  buttonText: {
+    color: 'white', // Cor do texto do botão
+    textAlign: 'center',
+    fontSize: 16,
   },
 });
 

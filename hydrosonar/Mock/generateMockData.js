@@ -1,37 +1,54 @@
 const fs = require('fs');
+const fetch = require('node-fetch');
 
-function generateRandomData(length) {
-  const data = [];
+const maxQueueSize = 24; // Defina o tamanho máximo da fila conforme necessário
 
-  for (let i = 0; i < length; i++) {
-    const percent = Math.random() * 100;
-    const liters = Math.random() * 10;
-    const valve_state = Math.random() < 0.5 ? false : true;
+const updateQueueFile = (data) => {
+  try {
+    let queue = [];
 
-    // Geração de uma data aleatória entre 2022 e 2023
-    const randomDate = new Date(
-      Date.now() - Math.floor(Math.random() * 365 * 24 * 60 * 60 * 1000) // Data dentro do último ano
-    );
-    const formattedDate = randomDate.toISOString().slice(0, 19).replace('T', ' ');
+    // Tenta ler o arquivo existente
+    if (fs.existsSync('mockData.json')) {
+      const fileContent = fs.readFileSync('mockData.json', 'utf-8');
+      queue = JSON.parse(fileContent);
 
-    data.push({
-      created_at: formattedDate,
-      actual_level: {
-        percent: percent.toFixed(2),
-        liters: liters.toFixed(4)
-      },
-      valve_state: valve_state
-    });
+      // Remove o último elemento se a fila atingir o tamanho máximo
+      if (queue.length >= maxQueueSize) {
+        queue.pop();
+      }
+    }
+
+    // Adiciona o novo dado à fila
+    queue.unshift(data);
+
+    // Salva a fila atualizada no arquivo
+    const jsonString = JSON.stringify(queue, null, 2);
+    fs.writeFileSync('mockData.json', jsonString, 'utf-8');
+
+    console.log('Dado adicionado à fila e arquivo atualizado');
+  } catch (error) {
+    console.error('Erro ao atualizar o arquivo de fila:', error.message);
   }
+};
 
-  return data;
-}
+const fetchDataAndSaveToQueue = async () => {
+  try {
+    const response = await fetch('http://apisenai.pythonanywhere.com/graphic-data/');
 
-function generateJSONFile(fileName, data) {
-  const jsonString = JSON.stringify(data, null, 2);
-  fs.writeFileSync(fileName, jsonString, 'utf-8');
-  console.log('Mock data generated and saved to ' + fileName);
-}
+    if (!response.ok) {
+      throw new Error('Erro na requisição');
+    }
 
-const jsonData = generateRandomData(30);
-generateJSONFile('mockData.json', jsonData);
+    const jsonData = await response.json();
+    
+    // Adiciona os dados à fila e atualiza o arquivo
+    updateQueueFile(jsonData);
+  } catch (error) {
+    console.error('Erro ao obter dados da API:', error.message);
+  }
+};
+
+// Chama a função fetchDataAndSaveToQueue a cada segundo
+setInterval(() => {
+  fetchDataAndSaveToQueue();
+}, 1000);

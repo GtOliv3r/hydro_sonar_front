@@ -1,15 +1,9 @@
 import React from 'react';
-import { View, Pressable, useColorScheme, Image } from 'react-native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Tabs, Link } from 'expo-router';
+import { Link, Tabs } from 'expo-router';
+import { Pressable, useColorScheme, Image, View, Text } from 'react-native';
+
 import Colors from '../../constants/Colors';
-import IndexScreen from './index';
-import AlertsScreen from './two';
-import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-
-
-const Tab = createBottomTabNavigator();
 
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>['name'];
@@ -18,46 +12,62 @@ function TabBarIcon(props: {
   return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
 }
 
-// Função para o ícone customizado com imagem
-const CustomTabIcon = ({ imageSource, color }: { imageSource: any; color: string }) => (
-  <Image source={imageSource} style={{ width: 40, height: 40, tintColor: color }} />
-);
-
 export default function TabLayout() {
   const colorScheme = useColorScheme();
 
+  const headerRightComponent = (
+    <Link href="/modal" asChild>
+      <Pressable>
+        {({ pressed }) => (
+          <Image
+          source={require('../../assets/images/hydronsonar.jpg')} // Substitua com o caminho da sua imagem
+          style={{ width: 50, height: 50, borderRadius: 15, marginRight: 10 }}
+        />
+        )}
+      </Pressable>
+    </Link>
+  );
+
+  const headerTitleComponent = (
+    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+      <Text style={{fontWeight: 'bold', color: 'white', fontSize: 24}}>Hydro Sonar</Text>
+    </View>
+  );
+
   return (
-      <Tab.Navigator
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ color }) => {
-            let iconName = 'code'; // Default icon name
-
-            if (route.name === 'Alerts') {
-              iconName = 'bell'; // Change to the icon name you want for Alerts
-            }
-
-            return <TabBarIcon name={'code'} color={color} />;
-          },
-          tabBarStyle: {
-            backgroundColor: '#5900CB',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            paddingHorizontal: 20,
-          },
-          tabBarActiveTintColor: Colors.light.tint,
-        })}
-      >
-        <Tab.Screen
-          name="Index"
-          component={IndexScreen}
-          options={{ title: 'Página Inicial' }}
-        />
-
-        <Tab.Screen
-          name="Alerts"
-          component={AlertsScreen}
-          options={{ title: 'Alertas' }}
-        />
-      </Tab.Navigator>
+    <Tabs
+      screenOptions={{
+        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarInactiveTintColor: '#270058',
+      }}>
+      <Tabs.Screen
+        name="index"
+        options={{
+          title: 'Início',
+          tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
+          headerRight: () => headerRightComponent,
+          headerTitle: () => headerTitleComponent,
+          headerTitleContainerStyle: { alignItems: 'center' }, // Centraliza o título e a imagem
+          headerStyle: { backgroundColor: '#8a2be2' },
+          headerTintColor: Colors[colorScheme ?? 'light'].text,
+          tabBarStyle: { backgroundColor: '#8a2be2', height: 70, paddingTop: 10 },
+          tabBarLabelStyle: { fontSize: 25, fontWeight: 'bold', paddingBottom: 3 },
+        }}
+      />
+      <Tabs.Screen
+        name="two"
+        options={{
+          title: 'Tab Two',
+          tabBarIcon: ({ color }) => <TabBarIcon name="warning" color={color} />,
+          headerRight: () => headerRightComponent,
+          headerTitle: () => headerTitleComponent,
+          headerTitleContainerStyle: { alignItems: 'center' }, // Centraliza o título e a imagem
+          headerStyle: { backgroundColor: '#8a2be2' },
+          headerTintColor: Colors[colorScheme ?? 'light'].text,
+          tabBarStyle: { backgroundColor: '#8a2be2', height: 70, paddingTop: 10 },
+          tabBarLabelStyle: { fontSize: 25, fontWeight: 'bold', paddingBottom: 3 },
+        }}
+      />
+    </Tabs>
   );
 }

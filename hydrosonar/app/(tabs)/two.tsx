@@ -1,20 +1,48 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Button } from 'react-native';
-import BoxInfo from '../../components/AlertBox';
+import BoxInfo, { Alert } from '../../components/AlertBox';
+
+interface ApiData {
+  timestamp: string;
+  actual_level: {
+    percent: number;
+    liters: number;
+  };
+  valve_state: boolean;
+}
 
 const MAX_ALERTS = 5;
 
 const AlertsScreen: React.FC = () => {
-  const [alerts, setAlerts] = useState<number[]>([]);
-  const [percentagem, setPercentagem] = useState<number | null>(null);
+  const [alerts, setAlerts] = useState<Alert[]>([]);
 
-  const removeAlert = (indexToRemove: number) => {
-    setAlerts((prevAlerts) => prevAlerts.filter((_, index) => index !== indexToRemove));
+  const removeAlert = (timestamp: number) => {
+    setAlerts((prevAlerts) => prevAlerts.filter((alert) => alert.timestamp !== timestamp));
   };
 
-  // Limpa todos os alertas
-  const clearAlerts = () => {
-    setAlerts([]);
+  const removeOldestAlert = () => {
+    setAlerts((prevAlerts) => {
+      const [, ...remainingAlerts] = prevAlerts;
+      return remainingAlerts;
+    });
+  };
+
+  const addNewAlert = (apiData: ApiData) => {
+    const newTimestamp = Date.parse(apiData.timestamp);
+    const newPercentagem = apiData.actual_level.percent;
+    const newAlert: Alert = {
+      timestamp: newTimestamp,
+      percentagem: newPercentagem,
+      message: `Nova mensagem de alerta: ${newPercentagem}%`,
+    };
+
+    setAlerts((prevAlerts) => {
+      // Verificar se a alerta já existe antes de adicioná-la
+      if (!prevAlerts.some((alert) => alert.timestamp === newTimestamp)) {
+        return [...prevAlerts, newAlert];
+      }
+      return prevAlerts;
+    });
   };
 
   useEffect(() => {
@@ -26,60 +54,41 @@ const AlertsScreen: React.FC = () => {
           throw new Error('Erro na requisição');
         }
 
-        const jsonData = await response.json();
+        const jsonData: ApiData = await response.json();
+        addNewAlert(jsonData);
 
-        const newPercentagem = jsonData.actual_level.percent;
-        setPercentagem(newPercentagem);
-
-        // Substitua isso pelas condições relevantes
-        const shouldGenerateAlert = newPercentagem <= 20 || newPercentagem >= 80;
-
-        if (shouldGenerateAlert) {
-          // Adiciona um novo alerta à lista se não for repetição do último
-          setAlerts((prevAlerts) => {
-            const lastAlert = prevAlerts[prevAlerts.length - 1];
-            const newAlert = Date.now();
-
-            // Verifica se o novo alerta é diferente do último
-            if (lastAlert !== newAlert) {
-              // Remove o primeiro alerta se já houver 5
-              if (prevAlerts.length >= MAX_ALERTS) {
-                const [, ...remainingAlerts] = prevAlerts;
-                return [...remainingAlerts, newAlert];
-              }
-              return [...prevAlerts, newAlert];
-            }
-
-            return prevAlerts;
-          });
+        if (alerts.length >= MAX_ALERTS) {
+          removeOldestAlert();
         }
       } catch (error) {
-        console.error('Erro ao obter dados da API:', error.message);
+        console.error('Erro ao obter dados da API:', error);
       }
     };
 
+    // Simulando a busca de dados da API a cada 5 segundos
     const intervalId = setInterval(fetchData, 5000);
 
+    // Limpa o intervalo quando o componente é desmontado
     return () => clearInterval(intervalId);
-  }, []);
+  }, [alerts]);
 
   return (
     <View style={styles.container}>
-      {percentagem !== null && (
-        <>
-          {alerts.map((timestamp, index) => (
-            <BoxInfo key={timestamp} percentagem={percentagem} onRemove={() => removeAlert(index)} />
-          ))}
-          <Button title="Limpar Alertas" onPress={clearAlerts} />
-        </>
-      )}
+      {alerts.map((alert) => (
+        <BoxInfo
+          key={alert.timestamp.toString()}
+          alert={alert}
+          onRemove={() => removeAlert(alert.timestamp)}
+        />
+      ))}
+      <Button title="Limpar Alertas" onPress={() => setAlerts([])} color="#8a2be2" />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor:'white',
+    backgroundColor: 'white',
     flex: 1,
   },
 });

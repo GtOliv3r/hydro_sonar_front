@@ -1,5 +1,6 @@
 const tintColorLight = '#2f95dc';
 const tintColorDark = '#fff';
+const tintColorSonar = "#8a2be2"
 
 export default {
   light: {
@@ -15,5 +16,12 @@ export default {
     tint: tintColorDark,
     tabIconDefault: '#ccc',
     tabIconSelected: tintColorDark,
+  },
+  sonar: {
+    text: '#fff',
+    background: '#8a2be2',
+    tint: tintColorDark,
+    tabIconDefault: '#ccc',
+    tabIconSelected: tintColorSonar,
   },
 };

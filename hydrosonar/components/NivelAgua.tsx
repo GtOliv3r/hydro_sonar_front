@@ -12,9 +12,6 @@ const NivelAgua: React.FC<NivelAguaProps> = ({ percentagem, litrosRestantes }) =
   
   return (
     <View style={styles.card}>
-      {/* Título "Nível de Água" */}
-      <Text style={styles.title}>Nível de Água</Text>
-
       {/* Conteúdo Centralizado: Ícone, Porcentagem e Litros Restantes */}
       <View style={styles.content}>
         {/* Ícone do Caminhão */}

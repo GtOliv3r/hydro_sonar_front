@@ -1,242 +1,122 @@
 [
   {
-    "created_at": "2023-04-11 19:21:38",
-    "actual_level": {
-      "percent": "32.17",
-      "liters": "0.4862"
-    },
-    "valve_state": true
+    "timestamp": "2023-12-14T18:35:02.773951Z",
+    "percent": 36.11593627166205,
+    "liters": 1.4098000187388369
   },
   {
-    "created_at": "2022-12-24 18:05:25",
-    "actual_level": {
-      "percent": "95.65",
-      "liters": "9.0151"
-    },
-    "valve_state": false
+    "timestamp": "2023-12-14T18:35:01.767038Z",
+    "percent": 36.81764519652299,
+    "liters": 1.4371915073043533
   },
   {
-    "created_at": "2023-10-04 22:29:45",
-    "actual_level": {
-      "percent": "37.64",
-      "liters": "5.8323"
-    },
-    "valve_state": true
+    "timestamp": "2023-12-14T18:35:00.759600Z",
+    "percent": 36.95740718530616,
+    "liters": 1.4426471724413001
   },
   {
-    "created_at": "2023-01-09 03:22:07",
-    "actual_level": {
-      "percent": "22.68",
-      "liters": "6.4000"
-    },
-    "valve_state": true
+    "timestamp": "2023-12-14T18:34:59.854973Z",
+    "percent": 37.44164685105695,
+    "liters": 1.4615496614897485
   },
   {
-    "created_at": "2023-03-29 06:21:00",
-    "actual_level": {
-      "percent": "63.29",
-      "liters": "6.0508"
-    },
-    "valve_state": true
+    "timestamp": "2023-12-14T18:34:58.743621Z",
+    "percent": 37.69222412639819,
+    "liters": 1.471331045663604
   },
   {
-    "created_at": "2023-05-21 14:31:05",
-    "actual_level": {
-      "percent": "89.61",
-      "liters": "0.9238"
-    },
-    "valve_state": false
+    "timestamp": "2023-12-14T18:34:57.731450Z",
+    "percent": 38.16347095812211,
+    "liters": 1.48972635423868
   },
   {
-    "created_at": "2023-05-22 13:25:56",
-    "actual_level": {
-      "percent": "64.77",
-      "liters": "1.5564"
-    },
-    "valve_state": true
+    "timestamp": "2023-12-14T18:34:56.727091Z",
+    "percent": 38.21478860682229,
+    "liters": 1.491729559182751
   },
   {
-    "created_at": "2023-11-29 21:05:07",
-    "actual_level": {
-      "percent": "90.20",
-      "liters": "9.9143"
-    },
-    "valve_state": true
+    "timestamp": "2023-12-14T18:34:55.713675Z",
+    "percent": 38.647359081527696,
+    "liters": 1.5086151206910663
   },
   {
-    "created_at": "2023-04-05 12:57:19",
-    "actual_level": {
-      "percent": "57.31",
-      "liters": "0.0326"
-    },
-    "valve_state": false
+    "timestamp": "2023-12-14T18:34:55.107474Z",
+    "percent": 38.95388010462349,
+    "liters": 1.5205802914360198
   },
   {
-    "created_at": "2023-01-26 19:14:30",
-    "actual_level": {
-      "percent": "12.11",
-      "liters": "3.3346"
-    },
-    "valve_state": true
+    "timestamp": "2023-12-14T18:34:53.694174Z",
+    "percent": 39.65908266773949,
+    "liters": 1.5481081555682779
   },
   {
-    "created_at": "2023-05-17 17:13:14",
-    "actual_level": {
-      "percent": "45.27",
-      "liters": "0.1384"
-    },
-    "valve_state": false
+    "timestamp": "2023-12-14T18:34:52.683294Z",
+    "percent": 40.66960232004176,
+    "liters": 1.5875541944037583
   },
   {
-    "created_at": "2023-08-24 15:19:35",
-    "actual_level": {
-      "percent": "21.76",
-      "liters": "4.8072"
-    },
-    "valve_state": false
+    "timestamp": "2023-12-14T18:34:51.673767Z",
+    "percent": 41.756265983476176,
+    "liters": 1.629972545171386
   },
   {
-    "created_at": "2023-10-21 11:40:15",
-    "actual_level": {
-      "percent": "37.84",
-      "liters": "1.4775"
-    },
-    "valve_state": true
+    "timestamp": "2023-12-14T18:34:50.668606Z",
+    "percent": 42.30541229479499,
+    "liters": 1.6514086910922405
   },
   {
-    "created_at": "2023-03-04 17:13:58",
-    "actual_level": {
-      "percent": "33.12",
-      "liters": "7.3241"
-    },
-    "valve_state": false
+    "timestamp": "2023-12-14T18:34:49.650535Z",
+    "percent": 43.15059599920591,
+    "liters": 1.6844007750674022
   },
   {
-    "created_at": "2023-11-26 12:16:30",
-    "actual_level": {
-      "percent": "50.15",
-      "liters": "9.4872"
-    },
-    "valve_state": false
+    "timestamp": "2023-12-14T18:34:48.645561Z",
+    "percent": 44.23407067601165,
+    "liters": 1.7266946424663852
   },
   {
-    "created_at": "2023-10-01 07:29:04",
-    "actual_level": {
-      "percent": "70.08",
-      "liters": "6.0354"
-    },
-    "valve_state": true
+    "timestamp": "2023-12-14T18:34:47.638330Z",
+    "percent": 45.17683399353828,
+    "liters": 1.763495785671364
   },
   {
-    "created_at": "2023-04-15 07:36:41",
-    "actual_level": {
-      "percent": "46.55",
-      "liters": "4.2959"
-    },
-    "valve_state": true
+    "timestamp": "2023-12-14T18:34:46.632236Z",
+    "percent": 45.86776527283476,
+    "liters": 1.790466564531214
   },
   {
-    "created_at": "2023-04-27 06:19:17",
-    "actual_level": {
-      "percent": "51.88",
-      "liters": "8.3400"
-    },
-    "valve_state": true
+    "timestamp": "2023-12-14T18:34:45.624679Z",
+    "percent": 46.182255942870114,
+    "liters": 1.8027428336323121
   },
   {
-    "created_at": "2023-07-28 08:31:24",
-    "actual_level": {
-      "percent": "94.53",
-      "liters": "7.0520"
-    },
-    "valve_state": true
+    "timestamp": "2023-12-14T18:34:44.625816Z",
+    "percent": 46.45216846538364,
+    "liters": 1.8132789769136366
   },
   {
-    "created_at": "2023-07-22 11:25:01",
-    "actual_level": {
-      "percent": "93.34",
-      "liters": "1.5746"
-    },
-    "valve_state": false
+    "timestamp": "2023-12-14T18:34:43.612316Z",
+    "percent": 46.918347904082026,
+    "liters": 1.8314764777750037
   },
   {
-    "created_at": "2023-07-27 17:07:01",
-    "actual_level": {
-      "percent": "44.52",
-      "liters": "4.9226"
-    },
-    "valve_state": true
+    "timestamp": "2023-12-14T18:34:42.728906Z",
+    "percent": 47.603020721292516,
+    "liters": 1.8582029550639418
   },
   {
-    "created_at": "2023-09-20 13:49:42",
-    "actual_level": {
-      "percent": "24.07",
-      "liters": "7.6239"
-    },
-    "valve_state": false
+    "timestamp": "2023-12-14T18:34:41.588932Z",
+    "percent": 48.654986646476154,
+    "liters": 1.899266865739855
   },
   {
-    "created_at": "2023-09-17 00:35:24",
-    "actual_level": {
-      "percent": "78.14",
-      "liters": "0.0684"
-    },
-    "valve_state": false
+    "timestamp": "2023-12-14T18:34:40.581426Z",
+    "percent": 49.129976041682454,
+    "liters": 1.9178082667774914
   },
   {
-    "created_at": "2023-10-12 01:08:30",
-    "actual_level": {
-      "percent": "30.31",
-      "liters": "3.6089"
-    },
-    "valve_state": true
-  },
-  {
-    "created_at": "2023-04-12 11:18:34",
-    "actual_level": {
-      "percent": "41.68",
-      "liters": "5.1337"
-    },
-    "valve_state": false
-  },
-  {
-    "created_at": "2023-06-16 01:36:36",
-    "actual_level": {
-      "percent": "89.90",
-      "liters": "4.7553"
-    },
-    "valve_state": true
-  },
-  {
-    "created_at": "2023-10-21 15:50:42",
-    "actual_level": {
-      "percent": "88.19",
-      "liters": "1.5628"
-    },
-    "valve_state": true
-  },
-  {
-    "created_at": "2023-07-29 15:26:05",
-    "actual_level": {
-      "percent": "60.46",
-      "liters": "6.3029"
-    },
-    "valve_state": true
-  },
-  {
-    "created_at": "2023-11-11 00:05:37",
-    "actual_level": {
-      "percent": "30.66",
-      "liters": "0.4460"
-    },
-    "valve_state": true
-  },
-  {
-    "created_at": "2023-10-16 10:12:42",
-    "actual_level": {
-      "percent": "23.10",
-      "liters": "3.2363"
-    },
-    "valve_state": false
+    "timestamp": "2023-12-14T18:34:39.756242Z",
+    "percent": 50.06979423816954,
+    "liters": 1.9544944460046434
   }
 ]
