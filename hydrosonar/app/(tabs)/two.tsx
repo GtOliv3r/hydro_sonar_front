@@ -81,7 +81,7 @@ const AlertsScreen: React.FC = () => {
           onRemove={() => removeAlert(alert.timestamp)}
         />
       ))}
-      <Button title="Limpar Alertas" onPress={() => setAlerts([])} />
+      <Button title="Limpar Alertas" onPress={() => setAlerts([])} color="#8a2be2" />
     </View>
   );
 };
