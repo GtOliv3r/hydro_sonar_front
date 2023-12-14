@@ -57,7 +57,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="two"
         options={{
-          title: 'Tab Two',
+          title: 'Alertas',
           tabBarIcon: ({ color }) => <TabBarIcon name="warning" color={color} />,
           headerRight: () => headerRightComponent,
           headerTitle: () => headerTitleComponent,
