@@ -17,28 +17,43 @@ export default function EditScreenInfo({ path }: { path: string }) {
           darkColor="rgba(255,255,255,0.8)">
           Este é um guia para você poder usar esse aplicativo!
         </Text>
-
-        <View
-          style={[styles.codeHighlightContainer, styles.homeScreenFilename]}
-          darkColor="rgba(255,255,255,0.05)"
-          lightColor="rgba(0,0,0,0.05)">
-          <MonoText>{path}</MonoText>
-        </View>
+        <Text></Text>
+        <Text></Text>
+        <Text></Text>
 
         <Text
           style={styles.getStartedText}
           lightColor="rgba(0,0,0,0.8)"
           darkColor="rgba(255,255,255,0.8)">
-          Change any of the text, save the file, and your app will automatically update.
+          A pagina "Início" possui alguns cards informando:  
         </Text>
+        <Text>* Nível da água em porcentagem e em litros</Text>
+        <Text>* Gráfico mostrando os últimos registros de consumo com horário</Text>
+        <Text>* Estado da válvula: ligado ou desligado</Text>
+        <Text></Text>
+        <Text></Text>
+
+        <Text
+          style={styles.getStartedText}
+          lightColor="rgba(0,0,0,0.8)"
+          darkColor="rgba(255,255,255,0.8)">
+          A página "Alertas" nos mostra notificações com base no nível atual da caixa d'água:  
+        </Text>
+  
+        <Text>* Nível muito alto (Acima de 90%)</Text>
+        <Text>* Nível alto (Entre 80% e 90%)</Text>
+        <Text>* Nível baixo (Entre 10% e 20%)</Text>
+        <Text>* Nível muito baixo (Abaixo de 10%)</Text>
+
+
       </View>
 
       <View style={styles.helpContainer}>
         <ExternalLink
           style={styles.helpLink}
-          href="https://docs.expo.io/get-started/create-a-new-app/#opening-the-app-on-your-phonetablet">
+          href="https://github.com/GtOliv3r/hydro_sonar_front.git">
           <Text style={styles.helpLinkText} lightColor={Colors.light.tint}>
-            Tap here if your app doesn't automatically update after making changes
+            Para mais informações, poderá acessar nosso repositório no GitHub clicando aqui
           </Text>
         </ExternalLink>
       </View>

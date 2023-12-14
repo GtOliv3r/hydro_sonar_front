@@ -16,7 +16,7 @@ export default function TabLayout() {
   const colorScheme = useColorScheme();
 
   const headerRightComponent = (
-    <Link href="/modal" asChild>
+    <Link href="/Ajuda" asChild>
       <Pressable>
         {({ pressed }) => (
           <Image
