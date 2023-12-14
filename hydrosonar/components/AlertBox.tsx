@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, Button } from 'react-native';
+import { View, Text, Image, StyleSheet, Button ,TouchableOpacity} from 'react-native';
 import { format } from 'date-fns';
 
 export interface Alert {
@@ -60,8 +60,13 @@ class BoxInfo extends React.Component<BoxInfoProps> {
         <View style={styles.content}>
           <Image source={require('../assets/images/alerta.png')} style={styles.image} />
           <View style={styles.textContainer}>
-            <Button title="Remover" onPress={this.handleRemove}/>
             <Text style={styles.description}>{description}</Text>
+            <TouchableOpacity
+              style={styles.removeButton}
+              onPress={this.handleRemove}
+            >
+              <Text style={styles.buttonText}>Remover</Text>
+            </TouchableOpacity>
             <Text style={styles.dateTime}>{formattedDateTime}</Text>
           </View>
         </View>
@@ -90,6 +95,7 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     flex: 1,
+    alignItems: 'center',
   },
   title: {
     fontSize: 18,
@@ -99,12 +105,25 @@ const styles = StyleSheet.create({
   description: {
     fontSize: 14,
     color: '#666',
+    marginBottom: 10,
   },
   dateTime: {
     fontSize: 12,
     color: '#888',
     marginTop: 5,
     alignSelf: 'flex-end',
+  },
+  removeButton: {
+    backgroundColor: '#8a2be2', // Defina a cor verde desejada
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 10,
+    width: '80%',
+  },
+  buttonText: {
+    color: 'white', // Cor do texto do botão
+    textAlign: 'center',
+    fontSize: 16,
   },
 });
 
