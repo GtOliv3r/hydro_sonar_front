@@ -2,18 +2,12 @@
 
 Para iniciar o programa, siga estes passos:
 
-1. Você pode executar os arquivos `start_program.bat` para Windows ou `start_program.sh` para Linux. Caso ocorra algum erro na execução desses arquivos, poderá seguir o passo a passo a seguir (esses arquivos estão no diretório Front-end).
+Você pode executar o arquivo `start_program.sh` para Linux e para Windows siga o proximo passo a passo. Caso ocorra algum erro na execução desse arquivo, poderá seguir o passo a passo a seguir (esse arquivo estão no diretório Front-end).
 
    ```
    # No Linux, execute o seguinte comando no terminal
    
    echo "y" | ./start_program.sh
-   ```
-
-   ```
-   # No Windows, basta digitar o nome do arquivo
-   
-   start_program.bat
    ```
 
 Certifique-se de estar na pasta Front-end para executar os comandos.
@@ -77,6 +71,6 @@ Nesta tela, os alertas são apresentados em formato de tabela, contendo as segui
 
 Nesta tela, é apresentado um pequeno guia de ajuda:
 
-<img src="./img/Tela_Modaljpeg">
+<img src="./img/Tela_Modal.jpeg">
 
 - **Informações das Duas Telas:** Informa o que tem em cada tela (Alerta e Início) e com mais detalhes fala sobre os tipos de alertas.
