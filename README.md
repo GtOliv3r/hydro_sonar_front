@@ -6,6 +6,8 @@ Você pode executar o arquivo `start_program.sh` para Linux e para Windows siga 
 
    ```
    # No Linux, execute o seguinte comando no terminal
+
+   cd hydrosonar
    
    echo "y" | ./start_program.sh
    ```
@@ -16,6 +18,7 @@ Certifique-se de estar na pasta Front-end para executar os comandos.
    Abra o terminal e navegue até a pasta onde está localizado o projeto. Use o comando `cd` para entrar em cada diretório necessário. Por exemplo:
    ```
    cd hydro_sonar_front
+
    cd hydrosonar
    ```
 
