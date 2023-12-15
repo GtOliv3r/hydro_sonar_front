@@ -1,4 +1,4 @@
 #!/bin/bash
-cd hydro_sonar_front/hydrosonar
+cd hydrosonar
 npm install
 npx expo start
