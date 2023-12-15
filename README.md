@@ -57,7 +57,6 @@ A tela inicial exibe informações vitais sobre o sistema de controle de nível 
 
 <img src="./img/Tela_Inicio.jpeg">
 
-
 - **Card Dinâmico:** Mostra a quantidade de líquido em litros e em porcentagem.
 - **Gráfico de Consumo:** Apresenta informações sobre o consumo por hora.
 - **Ilustração do Estado da Válvula:** Representa se a válvula está ligada (ON) ou desligada (OFF).
@@ -77,5 +76,7 @@ Nesta tela, os alertas são apresentados em formato de tabela, contendo as segui
 ## Tela de Modal (Clicando no ícone superior à direita)
 
 Nesta tela, é apresentado um pequeno guia de ajuda:
+
+<img src="./img/Tela_Modaljpeg">
 
 - **Informações das Duas Telas:** Informa o que tem em cada tela (Alerta e Início) e com mais detalhes fala sobre os tipos de alertas.
